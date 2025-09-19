@@ -1,1 +1,1 @@
-Hola, este es mi primer archivo de git
+Hola, este es mi primer archivo de git, aplicamos cambios 
