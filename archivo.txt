@@ -5,3 +5,6 @@ esto solo se debe ver en desarrollo
 
 
 esat es unanueva linea
+
+
+apicar cambio desde  githib dsktop
