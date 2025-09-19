@@ -1,1 +1,4 @@
 Hola, este es mi primer archivo de git, aplicamos cambios 
+
+
+esto solo se debe ver en desarrollo
