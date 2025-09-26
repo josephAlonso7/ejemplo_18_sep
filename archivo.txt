@@ -7,14 +7,11 @@ esto solo se debe ver en desarrollo esto es desarrollo
 Esta es una nueva linea
 
 
-aplicar cambio desde  github desktop
+apicar cambio desde  githib dsktop
 
-Es una nueva linea
+Es unanueva linea
 
 
 
 
 Desde dev
-
-
-Se corrige la ortografía :)
