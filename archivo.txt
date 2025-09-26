@@ -1,7 +1,7 @@
 Hola, este es mi primer archivo de git, aplicamos cambios 
 
 
-esto solo se debe ver en desarrollo
+esto solo se debe ver en desarrollo, esto eso main
 
 
 esat es unanueva linea
