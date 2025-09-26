@@ -4,9 +4,14 @@ Hola, este es mi primer archivo de git, aplicamos cambios
 esto solo se debe ver en desarrollo esto es desarrollo
 
 
-esat es unanueva linea
+Esta es una nueva linea
 
 
-apicar cambio desde  githib dsktop
+aplicar cambio desde  github desktop
 
-Es unanueva linea
+Es una nueva linea
+
+
+
+
+Desde dev
