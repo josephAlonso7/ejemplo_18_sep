@@ -3,33 +3,42 @@ name: Formatear TXT
 on:
   push:
     paths:
-      - '**.txt'   # Solo se ejecuta si se suben/actualizan archivos .txt
+      - '*/.txt'
+
+permissions:
+  contents: write   # <- NECESARIO para poder hacer push
 
 jobs:
   format:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Descargar código
-        uses: actions/checkout@v3
-
-      - name: Configurar Python
-        uses: actions/setup-python@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          python-version: '3.x'
+          fetch-depth: 0
+          # persist-credentials deja guardado GITHUB_TOKEN para el push
+          persist-credentials: true
 
-      - name: Formatear archivos TXT
+      - name: Configurar git
         run: |
-          for file in $(find . -name "*.txt"); do
-            echo "Formateando $file"
-            # Ejemplo: eliminar espacios al inicio/final de cada línea
-            sed -i 's/^[ \t]//;s/[ \t]$//' "$file"
+          git config user.name  "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Formatear .txt
+        run: |
+          shopt -s globstar nullglob
+          for f in */.txt; do
+            sed -i 's/^[ \t]//;s/[ \t]$//' "$f"
           done
 
-      - name: Commit de cambios formateados
+      - name: Commit y push (si hubo cambios)
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add *.txt
-          git commit -m "Autoformato de archivos TXT" || echo "No hay cambios"
-          git push
+          if ! git diff --quiet; then
+            git add -A
+            git commit -m "chore: autoformato TXT [skip ci]"
+            # Si aún fallara, fuerza url con token:
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            git push
+          else
+            echo "No hay cambios que commitear"
+          fi
