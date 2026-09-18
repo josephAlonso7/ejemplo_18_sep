@@ -1,0 +1,44 @@
+name: Formatear TXT
+
+on:
+  push:
+    paths:
+      - '*/.txt'
+
+permissions:
+  contents: write   # <- NECESARIO para poder hacer push
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # persist-credentials deja guardado GITHUB_TOKEN para el push
+          persist-credentials: true
+
+      - name: Configurar git
+        run: |
+          git config user.name  "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+
+      - name: Formatear .txt
+        run: |
+          shopt -s globstar nullglob
+          for f in */.txt; do
+            sed -i 's/^[ \t]//;s/[ \t]$//' "$f"
+          done
+
+      - name: Commit y push (si hubo cambios)
+        run: |
+          if ! git diff --quiet; then
+            git add -A
+            git commit -m "chore: autoformato TXT [skip ci]"
+            # Si aún fallara, fuerza url con token:
+            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+            git push
+          else
+            echo "No hay cambios que commitear"
+          fi
